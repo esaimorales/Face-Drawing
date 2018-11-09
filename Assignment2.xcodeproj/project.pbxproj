@@ -29,8 +29,8 @@
 		1946D9112194C620003EE2E6 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		1946D91A2194C80C003EE2E6 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		1946D91C2194C81C003EE2E6 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
-		1946D91E2194D5DA003EE2E6 /* face-index.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "face-index.txt"; path = "../../face-index.txt"; sourceTree = "<group>"; };
-		1946D91F2194D5EF003EE2E6 /* face-vertices.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "face-vertices.txt"; path = "../../face-vertices.txt"; sourceTree = "<group>"; };
+		421F319B219556540036F0D3 /* face-index.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "face-index.txt"; path = "../../face-index.txt"; sourceTree = "<group>"; };
+		421F319C2195565D0036F0D3 /* face-vertices.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "face-vertices.txt"; path = "../../face-vertices.txt"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,8 +66,8 @@
 		1946D9102194C620003EE2E6 /* Assignment2 */ = {
 			isa = PBXGroup;
 			children = (
-				1946D91F2194D5EF003EE2E6 /* face-vertices.txt */,
-				1946D91E2194D5DA003EE2E6 /* face-index.txt */,
+				421F319C2195565D0036F0D3 /* face-vertices.txt */,
+				421F319B219556540036F0D3 /* face-index.txt */,
 				1946D9112194C620003EE2E6 /* main.cpp */,
 			);
 			path = Assignment2;
@@ -236,6 +236,7 @@
 		1946D9162194C620003EE2E6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -243,6 +244,7 @@
 		1946D9172194C620003EE2E6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -266,6 +268,7 @@
 				1946D9172194C620003EE2E6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
