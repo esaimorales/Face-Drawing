@@ -183,7 +183,7 @@ void redraw(void) {
     //Display face - add your code here
     
     drawTriangle(1, 2, 3);
-    drawTriangle(4, 5, 6);
+    drawTriangle(4, 5, 2);
     
     //Flush data
     glFlush();
