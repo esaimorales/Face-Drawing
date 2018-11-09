@@ -18,7 +18,10 @@
 #include <cmath>
 
 #include <fstream>
+#include <sstream>
 #include <string>
+
+#include <vector> 
 
 // supress deprecated GLU warnings
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
@@ -117,11 +120,14 @@ void drawTriangle(int first, int second, int third) {
     
     glBegin(GL_TRIANGLES);
     
-    // fill these functions with parameters
+    //glVertex3f (0,0,0);
+        glVertex3f (first,0,0);
     
-        glVertex3f( 1.0f, 0.0f, 1.0f);
-        glVertex3f( 0.0f, 1.0f, 0.0f);
-        glVertex3f( 0.0f,-1.0f, 1.0f);
+    //glVertex3f (0,0,0);
+        glVertex3f (0,second,0);
+    
+    //glVertex3f (0,0,0);
+        glVertex3f (0,0,third);
     
     glEnd();
     
@@ -130,13 +136,31 @@ void drawTriangle(int first, int second, int third) {
 FILE *fp;
 void initObject()
 {
-    // read/store the object data file
-    
+    // read from file for every line
     ifstream file("face-vertices.txt");
     string str;
-    while (std::getline(file, str))
-    {
+    int i = 0;  // keeps track of line in file
+    
+    while (std::getline(file, str)){
+        
         cout << str << endl;
+        
+        string coordiante;
+        stringstream stream(str);
+        vector<float> coordiantes;
+        
+        while(getline(stream, coordiante, ','))
+        {
+            coordiantes.push_back(stof(coordiante));
+        }
+        
+        vertex temp;
+        temp.x = coordiantes[0];
+        temp.y = coordiantes[1];
+        temp.z = coordiantes[2];
+        
+        vertices[i] = temp;
+        i+=1;
     }
 }
 
@@ -177,13 +201,13 @@ void redraw(void) {
             break;
         default:
             break;
-            
     }
     
     //Display face - add your code here
     
-    drawTriangle(1, 2, 3);
-    drawTriangle(4, 5, 2);
+    for(int i = 0; i < sizeof(vertices); i++){
+        drawTriangle(vertices[i].x, vertices[i].y, vertices[i].z);
+    }
     
     //Flush data
     glFlush();
