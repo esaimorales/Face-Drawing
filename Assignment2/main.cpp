@@ -260,6 +260,7 @@ void redraw(void) {
         drawTriangle(triangles[i].x, triangles[i].y, triangles[i].z);
     }
     
+    
     // Flush data
     glFlush();
 }
@@ -292,6 +293,8 @@ int main(int argc, char * argv[]) {
     initObject();
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGBA|GLUT_DEPTH);
+    
+    /* TODO: 1) add lighting/shading 2) add POINTS option */
     
     glutInitWindowSize(700, 600);
     glutInitWindowPosition(100, 100);
