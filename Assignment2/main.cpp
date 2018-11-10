@@ -133,16 +133,24 @@ void drawTriangle(int first, int second, int third) {
     glVertex3f(vertices[third].x, vertices[third].y, vertices[third].z);
     
     glEnd();
-    
 };
 
 
 void initObject() {
     
+    cout << "reading files..." << endl;
+    
     // Read from file and create vertex objects
     // Add all vertices to vertices array
     
-    ifstream file("face-vertices.txt");
+    ifstream file("/Users/esai/Desktop/Face-Drawing/Assignment2/face-vertices.txt");
+    
+    if (!file)
+    {
+        cout << "error opening input file, please specify correct path" << endl;
+    }
+    
+    
     string str;
     int i = 0;
     
@@ -157,6 +165,7 @@ void initObject() {
         {
             coordinates[j] = stof(coordinate);
             j++;
+            cout << coordinate << endl;
         }
         
         vertex temp;
@@ -172,7 +181,13 @@ void initObject() {
     // Read from file and create triangle objects
     // Add all triangles to triangles array
     
-    ifstream file2("face-index.txt");
+    ifstream file2("/Users/esai/Desktop/Face-Drawing/Assignment2/face-index.txt");
+    
+    if (!file)
+    {
+        cout << "error opening input file, please specify correct path" << endl;
+    }
+    
     i = 0;
     
     while(getline(file2, str)){
@@ -244,19 +259,6 @@ void redraw(void) {
     for(int i = 0; i < 13806; i++){
         drawTriangle(triangles[i].x, triangles[i].y, triangles[i].z);
     }
-
-    
-//    glBegin(GL_TRIANGLES);
-//    glVertex3f(-0.0570917,0.490469,-0.142433);
-//    glVertex3f(-0.0581126,0.5,-0.160615);
-//    glVertex3f(-0.0651903,0.490827,-0.147409);
-//    glEnd();
-//    
-//    glBegin(GL_TRIANGLES);
-//    glVertex3f(-0.0581126f,0.5f,-0.160615f);
-//    glVertex3f(-0.0570917f,0.490469f,-0.142433f);
-//    glVertex3f(-0.0501295f,0.499886f,-0.158146f);
-//    glEnd();
     
     // Flush data
     glFlush();
