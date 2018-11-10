@@ -36,12 +36,19 @@ struct v {
     float x, y, z;
 };
 
+struct triangle {
+    int x, y, z;
+};
+
 enum {POINTS=1, WIRE, FILL};
 
 int rendermode = FILL;
 
 // The array to store the vertices from face-vertices.txt
 vertex vertices[7061];
+
+// The array to store the triangle indexes from face-index.txt
+triangle triangles[13806];
 
 // Used to store values of mouse coordinates on click
 int OldX, OldY;
@@ -132,28 +139,66 @@ void drawTriangle(int first, int second, int third) {
 
 void initObject() {
     
+    // Read from file and create vertex objects
+    // Add all vertices to vertices array
+    
     ifstream file("face-vertices.txt");
     string str;
     int i = 0;
     
     while (getline(file, str)){
         
-        string coordiante;
+        string coordinate;
         stringstream stream(str);
-        vector<float> coordiantes;
+        float coordinates[3];
         
-        while(getline(stream, coordiante, ',')) coordiantes.push_back(stof(coordiante));
+        int j = 0;
+        while(getline(stream, coordinate, ','))
+        {
+            coordinates[j] = stof(coordinate);
+            j++;
+        }
         
         vertex temp;
-        temp.x = coordiantes[0];
-        temp.y = coordiantes[1];
-        temp.z = coordiantes[2];
+        temp.x = coordinates[0];
+        temp.y = coordinates[1];
+        temp.z = coordinates[2];
         
         vertices[i] = temp;
         
         i++;
     }
+    
+    // Read from file and create triangle objects
+    // Add all triangles to triangles array
+    
+    ifstream file2("face-index.txt");
+    i = 0;
+    
+    while(getline(file2, str)){
+        
+        string index;
+        stringstream stream(str);
+        int indexes[3];
+        
+        int j = 0;
+        while(getline(stream, index, ','))
+        {
+            indexes[j] = stoi(index);
+            j++;
+        }
+        
+        triangle temp;
+        temp.x = indexes[0];
+        temp.y = indexes[1];
+        temp.z = indexes[2];
+        triangles[i] = temp;
+        
+        i++;
+    }
+    
 }
+
 
 void redraw(void) {
     
@@ -187,7 +232,7 @@ void redraw(void) {
         case POINTS:
             glPointSize(3);
         case WIRE:
-            glColor4f(1.0f, 0.5f, 0.0f,1.0f);
+            glColor4f(1.0f, 0.5f, 0.0f, 1.0f);
             glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
             break;
         default:
@@ -196,22 +241,22 @@ void redraw(void) {
     
     // Display face
     
-    ifstream file("face-index.txt");
-    string str;
-
-    while (getline(file, str)){
-        
-        string index;
-        stringstream stream(str);
-        vector<int> triangle;
-        
-        while(getline(stream, index, ',')) triangle.push_back(stoi(index));
-        
-        drawTriangle(triangle[0], triangle[1], triangle[2]);
+    for(int i = 0; i < 13806; i++){
+        drawTriangle(triangles[i].x, triangles[i].y, triangles[i].z);
     }
+
     
-    
-    drawTriangle(1, 2, 3);
+//    glBegin(GL_TRIANGLES);
+//    glVertex3f(-0.0570917,0.490469,-0.142433);
+//    glVertex3f(-0.0581126,0.5,-0.160615);
+//    glVertex3f(-0.0651903,0.490827,-0.147409);
+//    glEnd();
+//    
+//    glBegin(GL_TRIANGLES);
+//    glVertex3f(-0.0581126f,0.5f,-0.160615f);
+//    glVertex3f(-0.0570917f,0.490469f,-0.142433f);
+//    glVertex3f(-0.0501295f,0.499886f,-0.158146f);
+//    glEnd();
     
     // Flush data
     glFlush();
