@@ -13,7 +13,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
-#include <GLUT/glut.h>
+//#include <GLUT/glut.h>
 #include <cmath>
 
 #include <fstream>
@@ -196,7 +196,7 @@ void initObject() {
     
     cout << "reading files..." << endl;
     
-    // Read from file and create vertex objects
+    // Read from vertices file and create vertex objects
     // Add all vertices to vertices array
     
     ifstream file("/Users/esaimorales/Desktop/Face-Drawing/Assignment2/face-vertices.txt");
@@ -205,7 +205,6 @@ void initObject() {
     {
         cout << "error opening input file, please specify correct path" << endl;
     }
-    
     
     string str;
     int i = 0;
@@ -233,7 +232,7 @@ void initObject() {
         i++;
     }
     
-    // Read from file and create triangle objects
+    // Read from indexes file and create triangle objects
     // Add all triangles to triangles array
     
     ifstream file2("/Users/esaimorales/Desktop/Face-Drawing/Assignment2/face-index.txt");
