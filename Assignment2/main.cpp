@@ -102,8 +102,24 @@ void init(void) {
     
     // Set light position
     GLfloat light_pos[] = {0.5f, 0.5f, -5.3f, 1.f};//{ 2, 1, 0, 0 };
+    
+    // My addition
+    /*
+    GLfloat diffuse0[] = {1.0,0.0,0.0,1.0};
+    GLfloat ambient0[] = {0.0,0.0,0.0,1.0};
+    GLfloat specular0[] = {1.0,1.0,1.0,1.0};
+    */
+     
     glLightfv(GL_LIGHT0, GL_POSITION, light_pos);
     
+    // My addition
+    
+    /*
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse0);
+    glLightfv(GL_LIGHT0, GL_AMBIENT, ambient0);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, specular0);
+    */
+     
     static GLfloat face_mat[] = {1.0f, 0.5f, 0.0f, 1.0f};
     glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, face_mat);
     
@@ -124,10 +140,50 @@ void init(void) {
 }
 
 
+vector<float> computeNormal(vertex A, vertex B, vertex C){
+    
+    // Calculate the directional vectors
+    
+    vertex V, W;
+    
+    V.x = A.x - B.x;
+    V.y = A.y - B.y;
+    V.z = A.z - B.z;
+
+    W.x = B.x - C.x;
+    W.y = B.y - C.y;
+    W.z = B.z - C.z;
+    
+    // Calculates the normal vector relative to triangle plane
+    
+    vector<float> normal;
+
+    float n1 = (V.y * W.z) - (V.z * W.y);
+    float n2 = (V.z * W.x) - (V.x * W.z);
+    float n3 = (V.x * W.y) - (V.y * W.x);
+    
+    float len  = abs(n1) + abs(n2) + abs(n3);
+    
+    normal.push_back(n3/len);
+    normal.push_back(n2/len);
+    normal.push_back(n1/len);
+    
+    return normal;
+}
+
+
 void drawTriangle(int first, int second, int third) {
     
-    glBegin(GL_TRIANGLES);
+    if(rendermode == 1){
+        glBegin(GL_POINTS);
+    }
+    else{
+        glBegin(GL_TRIANGLES);
+    }
     
+    vector<float> normal = computeNormal(vertices[first], vertices[second], vertices[third]);
+    
+    glNormal3f(normal[0], normal[1], normal[2]);
     glVertex3f(vertices[first].x, vertices[first].y, vertices[first].z);
     glVertex3f(vertices[second].x, vertices[second].y, vertices[second].z);
     glVertex3f(vertices[third].x, vertices[third].y, vertices[third].z);
@@ -143,7 +199,7 @@ void initObject() {
     // Read from file and create vertex objects
     // Add all vertices to vertices array
     
-    ifstream file("/Users/esai/Desktop/Face-Drawing/Assignment2/face-vertices.txt");
+    ifstream file("/Users/esaimorales/Desktop/Face-Drawing/Assignment2/face-vertices.txt");
     
     if (!file)
     {
@@ -165,7 +221,6 @@ void initObject() {
         {
             coordinates[j] = stof(coordinate);
             j++;
-            cout << coordinate << endl;
         }
         
         vertex temp;
@@ -181,9 +236,9 @@ void initObject() {
     // Read from file and create triangle objects
     // Add all triangles to triangles array
     
-    ifstream file2("/Users/esai/Desktop/Face-Drawing/Assignment2/face-index.txt");
+    ifstream file2("/Users/esaimorales/Desktop/Face-Drawing/Assignment2/face-index.txt");
     
-    if (!file)
+    if (!file2)
     {
         cout << "error opening input file, please specify correct path" << endl;
     }
@@ -239,17 +294,21 @@ void redraw(void) {
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     
     switch(rendermode) {
+            
         case FILL:
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
             glShadeModel(GL_FLAT);
             break;
             
         case POINTS:
-            glPointSize(3);
+            glPointSize(2);
+            break;
+            
         case WIRE:
             glColor4f(1.0f, 0.5f, 0.0f, 1.0f);
             glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
             break;
+            
         default:
             break;
     }
